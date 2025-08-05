@@ -47,7 +47,11 @@ public DTOIABot readBy(Integer id) throws Exception {
     return dto;
 }
 
+<<<<<<< HEAD
     //@Override
+=======
+    @Override
+>>>>>>> 09c84ec321d00563648780db7f59c6607c9125c7
     public List<DTOIABot> readAll() throws Exception {
         DTOIABot dto;
         List<DTOIABot> list = new ArrayList<>();
