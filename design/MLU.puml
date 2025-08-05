@@ -1,0 +1,39 @@
+@startuml
+entity IABOT {
+    * IdIABot : INTEGER <<PK>>
+    --
+    Version : TEXT <<UNIQUE>>
+    Estado : VARCHAR(1)
+    FechaCreacion : DATETIME
+}
+
+entity ExaBot {
+    * IdExaBot : INTEGER <<PK>>
+    --
+    IdIABot : INTEGER <<FK>>
+    Serie : TEXT
+    Estado : VARCHAR(1)
+}
+
+entity PersonaTipo {
+    * IdPersonaTipo : INTEGER <<PK>>
+    --
+    Tipo : VARCHAR(15) <<UNIQUE>>
+    Estado : VARCHAR(1)
+    FechaCreacion : DATETIME
+}
+
+entity Persona {
+    * IdPersona : INTEGER <<PK>>
+    --
+    IdPersonaTipo : INTEGER <<FK>>
+    Cedula : TEXT <<UNIQUE>>
+    Nombre : TEXT
+    FechaCrea : DATETIME
+}
+
+' Relaciones
+IABOT ||--o{ ExaBot : contiene
+PersonaTipo ||--o{ Persona : clasifica
+
+@enduml
