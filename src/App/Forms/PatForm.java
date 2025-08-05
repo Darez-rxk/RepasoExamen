@@ -13,7 +13,7 @@ public class PatForm  extends JFrame{
     }
     public void initComponents(){
     PatButton patButton = new PatButton("Pat Button");
-    patButton.setBounds(300, 300, 200, 50);
+    patButton.setBounds(50, 100, 200, 50);
     patButton.addActionListener(e -> {
         // Action to perform when button is clicked
         System.out.println("Pat Button clicked!");

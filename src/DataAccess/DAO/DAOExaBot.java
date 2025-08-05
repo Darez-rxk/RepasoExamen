@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,71 +42,66 @@ public class DAOExaBot extends DataHelperSQLite implements IDAO<DTOExaBot> {
         return dto;
     }
 
-    
-
+    //@Override
     public List<DTOExaBot> readAll() throws Exception {
         return null;
-            //     DTOExaBot dto;
-    //     List<DTOExaBot> lista = new ArrayList<>();
-    //     String query = "SELECT IdExaBot, IdIABot, Serie, Estado, FechaCreacion, FechaModifica "
-    //                  + "FROM ExaBot WHERE Estado = 'A'";
+        // List<DTOExaBot> lista = new ArrayList<>();
+        // String query = "SELECT IdExaBot, IdIABot, Serie, Estado, FechaCreacion, FechaModifica "
+        //              + "FROM ExaBot WHERE Estado = 'A'";
 
-    //     try {Connection conn = openConnection();
-    //          Statement stmt = conn.createStatement();
-    //          ResultSet rs = stmt.executeQuery(query));
+        // try (Connection conn = openConnection();
+        //      PreparedStatement stmt = conn.prepareStatement(query);
+        //      ResultSet rs = stmt.executeQuery()) {
 
-    //         while (rs.next()) {
-    //             dto= new DTOExaBot(
-    //                 rs.getInt("IdExaBot"),
-    //                 rs.getInt("IdIABot"),
-    //                 rs.getString("Serie"),
-    //                 rs.getString("Estado"),
-    //                 rs.getString("FechaCreacion"),
-    //                 rs.getString("FechaModifica")
-    //             );
-    //             lista.add(dto);
-    //         }
+        //     while (rs.next()) {
+        //         DTOExaBot dto = new DTOExaBot(
+        //             rs.getInt("IdExaBot"),
+        //             rs.getInt("IdIABot"),
+        //             rs.getString("Serie"),
+        //             rs.getString("Estado"),
+        //             rs.getString("FechaCreacion"),
+        //             rs.getString("FechaModifica")
+        //         );
+        //         lista.add(dto);
+        //     }
 
-    //     } catch (SQLException e) {
-    //         throw e;
-    //     }
+        // } catch (SQLException e) {
+        //     throw e;
+        // }
 
-    //     return lista;
- 
+        // return lista;
     }
 
-    @Override
+    
     public List<DTOExaBot> readAll(Integer idIABot) throws Exception {
-        DTOExaBot dto;
         List<DTOExaBot> lista = new ArrayList<>();
-
         String query = "SELECT IdExaBot, IdIABot, Serie, Estado, FechaCreacion, FechaModifica "
-                 + "FROM ExaBot WHERE Estado = 'A' AND IdIABot = " + idIABot;
+                     + "FROM ExaBot WHERE Estado = 'A' AND IdIABot = ?";
 
-            try (Connection conn = openConnection();
-                Statement stmt = conn.createStatement();
-                ResultSet rs = stmt.executeQuery(query)) {
+        try (Connection conn = openConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, idIABot);
+            ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                     dto = new DTOExaBot(
-                        rs.getInt("IdExaBot"),
-                        rs.getInt("IdIABot"),
-                        rs.getString("Serie"),
-                        rs.getString("Estado"),
-                        rs.getString("FechaCreacion"),
-                        rs.getString("FechaModifica")
-            );
-            lista.add(dto);
+                DTOExaBot dto = new DTOExaBot(
+                    rs.getInt("IdExaBot"),
+                    rs.getInt("IdIABot"),
+                    rs.getString("Serie"),
+                    rs.getString("Estado"),
+                    rs.getString("FechaCreacion"),
+                    rs.getString("FechaModifica")
+                );
+                lista.add(dto);
+            }
+
+        } catch (SQLException e) {
+            throw e;
         }
 
-    } catch (SQLException e) {
-        throw e;
+        return lista;
     }
-
-    return lista;
-}
-
-         
 
     @Override
     public boolean create(DTOExaBot dto) throws Exception {

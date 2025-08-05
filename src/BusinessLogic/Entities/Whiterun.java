@@ -15,7 +15,7 @@ public class Whiterun {
         
         IABot     = IABot.getInstancia(1);
         lstExobot = new ArrayList<>();
-    }
+    } 
 
     public void crearExobot()throws Exception {
         DAOExaBot daoExaBot = new DAOExaBot();

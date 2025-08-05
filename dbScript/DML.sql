@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 -- database: ../db/EXOBOT.sqlite
-=======
--- database: ../db/EXOBOT.sql
->>>>>>> 09c84ec321d00563648780db7f59c6607c9125c7
 /*
  * DDL: Lenguaje de Manipulacion de Datos - CRUD (create, read, update, delete)
  copyRight

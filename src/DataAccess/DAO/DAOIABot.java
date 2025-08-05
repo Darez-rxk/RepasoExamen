@@ -47,11 +47,7 @@ public DTOIABot readBy(Integer id) throws Exception {
     return dto;
 }
 
-<<<<<<< HEAD
     //@Override
-=======
-    @Override
->>>>>>> 09c84ec321d00563648780db7f59c6607c9125c7
     public List<DTOIABot> readAll() throws Exception {
         DTOIABot dto;
         List<DTOIABot> list = new ArrayList<>();
@@ -129,6 +125,12 @@ public DTOIABot readBy(Integer id) throws Exception {
             throw e; // Podrías lanzar una excepción personalizada aquí
         }
         
+    }
+
+    @Override
+    public List<DTOIABot> readAll(Integer idIABot) throws Exception {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'readAll'");
     }
     
 

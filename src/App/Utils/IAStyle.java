@@ -28,7 +28,7 @@ public abstract class IAStyle {
     public static final Cursor CURSOR_HAND = new Cursor(Cursor.HAND_CURSOR);
     public static final Cursor CURSOR_DEFAULT = new Cursor(Cursor.DEFAULT_CURSOR);
 
-    public static final URL URL_INFO = IAStyle.class.getResource("/App/Assets/Img/images.png");
+    public static final URL URL_MAIN = IAStyle.class.getResource("/App/Assets/Img/images.png");
     public static final URL URL_LOGO = IAStyle.class.getResource("/App/Assets/Img/logo.png");
     public static final URL URL_SPLASH = IAStyle.class.getResource("/App/Assets/Img/splah.png");
 

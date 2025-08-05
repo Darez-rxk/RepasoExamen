@@ -1,19 +1,15 @@
 
-<<<<<<< HEAD
-import App.Forms.PatForm;
-=======
->>>>>>> 09c84ec321d00563648780db7f59c6607c9125c7
+import App.Forms.FormMain;
 import BusinessLogic.Entities.Whiterun;
 
 public class App {
     public static void main(String[] args) throws Exception {
         Whiterun whiterun = new Whiterun();
         whiterun.crearExobot();
-<<<<<<< HEAD
-        PatForm patForm = new PatForm();
-        patForm.showForm();
-=======
->>>>>>> 09c84ec321d00563648780db7f59c6607c9125c7
+        //new SplashScreenFor m();
+        FormMain mainForm = new FormMain("Exobot - IABot");
+        mainForm.setVisible(true);
+
         //------------------------------------
         //Prueba de IABot 
         // IABot iaBot = IABot.getInstancia(1);

@@ -1,9 +1,12 @@
 package App.CustomerControl;
 
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.event.MouseListener;
 import App.Utils.IAStyle;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 public class PatButton extends JButton implements MouseListener {
     public PatButton(String text) {
@@ -20,7 +23,7 @@ public void customizeComponent(String text, String IconPath) {
     setBounds(50, 30, 90, 20);
 
     setIcon(new ImageIcon(IconPath));
-    setFont(IStyleUI.FONT);
+    setFont(IAStyle.FONT);
 }
 
 public void customizeComponent(String text) {
@@ -29,12 +32,31 @@ public void customizeComponent(String text) {
     setFocusPainted(false);
     setBorderPainted(false);
     setContentAreaFilled(false);
-    setForeground(IStyleUI.COLOR_FONT);
-    setHorizontalAlignment(IStyleUI.ALIGNMENT_LEFT);
-    setFont(IStyleUI.FONT);
+    setForeground(IAStyle.COLOR_FONT);
+    setHorizontalAlignment(IAStyle.ALIGNMENT_LEFT);
+    setFont(IAStyle.FONT);
 
     setCursor(new Cursor(Cursor.HAND_CURSOR));
 }
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            }
+        @Override
+        public void mousePressed(MouseEvent e) {
+            }
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            }
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            setForeground(Color.BLACK);
+            setCursor(IAStyle.CURSOR_HAND);
+        }
+        @Override  
+        public void mouseExited(MouseEvent e) {
+            setForeground(Color.GRAY);
+            setCursor(IAStyle.CURSOR_DEFAULT);
+        }  
 
     // You can add more methods or properties specific to PatButton if needed
 
