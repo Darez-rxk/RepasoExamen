@@ -7,16 +7,32 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DAOExaBot extends DataHelperSQLite implements IDAO<DTOExaBot> {
-
+    @Override
+    public Integer getMaxReg() throws Exception {
+        String query = "SELECT COUNT(*) FROM ExaBot WHERE Estado='A'";
+        try {
+            Connection conn = openConnection(); // conectar a DB
+            Statement stmt = conn.createStatement(); // CRUD: select ...
+            ResultSet rs = stmt.executeQuery(query); // ejecutar la consulta
+        
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw e;
+        }
+        return 0;
+    }
     @Override
     public DTOExaBot readBy(Integer id) throws Exception {
         DTOExaBot dto = null;
         String query = "SELECT IdExaBot, IdIABot, Serie, Estado, FechaCreacion, FechaModifica "
-                     + "FROM ExaBot WHERE Estado = 'A' AND IdExaBot = ?";
+                     + "FROM ExaBot WHERE Estado = 'A' AND IdExaBot = " +id.toString();
 
         try (Connection conn = openConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {

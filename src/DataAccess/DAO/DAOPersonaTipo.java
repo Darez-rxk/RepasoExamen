@@ -27,7 +27,7 @@ public class DAOPersonaTipo extends DataHelperSQLite implements IDAO<DTOPersonaT
     public DTOPersonaTipo readBy(Integer id) throws Exception {
     DTOPersonaTipo dto = new DTOPersonaTipo();
 
-    String query = "SELECT IdPersonaTipo, Nombre, Estado, FechaCreacion,FechaModifica "
+    String query = "SELECT IdPersonaTipo, Tipo, Estado, FechaCreacion,FechaModifica "
                  + "FROM PersonaTipo "
                  + "WHERE Estado = 'A' AND IdPersonaTipo = " + id.toString();
 
@@ -101,9 +101,9 @@ public class DAOPersonaTipo extends DataHelperSQLite implements IDAO<DTOPersonaT
     public boolean update(DTOPersonaTipo entity) throws Exception {
         // Implementación del método update
         String query = "UPDATE PersonaTipo SET "
-                + "Tipo = ?, "
-                + "FechaModifica = ?, "
-                + "WHERE IdPersonaTipo = ?"; 
+             + "Tipo = ?, "
+             + "FechaModifica = ? "
+             + "WHERE IdPersonaTipo = ?";
         try {
             Connection conn = openConnection(); // Conectar a la base de datos
             PreparedStatement pstmt = conn.prepareStatement(query); // Preparar la consulta
@@ -136,5 +136,20 @@ public class DAOPersonaTipo extends DataHelperSQLite implements IDAO<DTOPersonaT
         
     }
 
-   
+    @Override
+    public Integer getMaxReg() throws Exception {
+        String query = "SELECT COUNT(*) FROM PersonaTipo WHERE Estado = 'A'";
+        try {
+            Connection conn = openConnection(); // Conectar a la base de datos
+            PreparedStatement pstmt = conn.prepareStatement(query); // Preparar la consulta
+            ResultSet rs = pstmt.executeQuery(); // Ejecutar la consulta y obtener el resultado
+            if (rs.next()) {
+                return rs.getInt(1); // Obtener el valor máximo de IdPersonaTipo
+                 }
+                 } catch (SQLException e) {
+                    throw e; // Podrías lanzar una excepción personalizada aquí
+                    }
+        return 0;
+                    
+    }
 }

@@ -11,7 +11,7 @@ public class BLFactory <T > {
         this.oDAO = daoSupplier.get();
     }
     public List<T> getAll() throws Exception {
-        return oDAO.readAll(2);
+        return oDAO.readAll();
 
     }
     public T getById(Integer id) throws Exception {
@@ -26,6 +26,8 @@ public class BLFactory <T > {
     public boolean del(Integer id) throws Exception {
         return oDAO.delete(id);
     }
-
+    public Integer getMaxReg() throws Exception {
+        return oDAO.readAll().size();
+    }
    
 }

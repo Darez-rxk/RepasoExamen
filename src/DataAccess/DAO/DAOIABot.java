@@ -17,8 +17,8 @@ public class DAOIABot extends DataHelperSQLite implements IDAO<DTOIABot> {
         // Constructor por defecto
     }
 
-@Override
-public DTOIABot readBy(Integer id) throws Exception {
+    @Override
+    public DTOIABot readBy(Integer id) throws Exception {
     DTOIABot dto = null;
 
     String query = "SELECT IdIABot, Version, Estado, FechaCreacion, FechaModifica "
@@ -46,8 +46,23 @@ public DTOIABot readBy(Integer id) throws Exception {
 
     return dto;
 }
-
-    //@Override
+    @Override
+    public Integer getMaxReg() throws Exception {
+        String query = "SELECT COUNT(*) FROM IABot WHERE Estado='A'";
+        try {
+            Connection conn = openConnection(); // conectar a DB
+            Statement stmt = conn.createStatement(); // CRUD: select ...
+            ResultSet rs = stmt.executeQuery(query); // ejecutar la consulta
+        
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw e;
+        }
+        return 0;
+    }
+    @Override
     public List<DTOIABot> readAll() throws Exception {
         DTOIABot dto;
         List<DTOIABot> list = new ArrayList<>();
@@ -127,11 +142,6 @@ public DTOIABot readBy(Integer id) throws Exception {
         
     }
 
-    @Override
-    public List<DTOIABot> readAll(Integer idIABot) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'readAll'");
-    }
-    
+
 
 }

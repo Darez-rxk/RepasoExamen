@@ -4,29 +4,85 @@ import App.CustomerControl.PatButton;
 import App.CustomerControl.PatLabel;
 import App.CustomerControl.PatTextBox;
 import App.Utils.IAStyle;
+import BusinessLogic.BLFactory;
+import DataAccess.DAO.DAOPersonaTipo;
+import DataAccess.DTO.DTOPersonaTipo;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Label;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PanelPersonaTipo extends JPanel {
-    public static final long serialVersionUID = 1L;
-    public PanelPersonaTipo() {
-        initcomponent();
-    }
+public class PanelPersonaTipo extends JPanel implements ActionListener{
+    private BLFactory<DTOPersonaTipo> blfPersonaTipo = new BLFactory<>(DAOPersonaTipo::new);
+    private DTOPersonaTipo dtoPersonaTipo = new DTOPersonaTipo();
+     //public static final long serialVersionUID = 1L;
+    private Integer regAct = 0
+                  ,regMax=0;
 
+
+    public PanelPersonaTipo() {
+        
+        try {
+            initcomponent();
+            loadRowData();
+            showRowData();
+            btnRowIni.addActionListener(this);
+            btnRowAnt.addActionListener(this);
+            btnRowSig.addActionListener(this);
+            btnRowFin.addActionListener(this);
+
+            // btnPageIni.addActionListener(e -> {
+            //     regAct=1;
+            //     dtoPersonaTipo =blfPersonaTipo.getById(regAct);
+            //     showRowData();
+            // });
+        } catch (Exception e) {
+            
+            IAStyle.showMsg("error al cargar los datos de tipo persona"+e.getMessage());
+        }
+        showRowData();
+    }
+    private void loadRowData() throws Exception{
+       regAct           = 1;
+       dtoPersonaTipo   =blfPersonaTipo.getById(regAct);
+       regMax           = blfPersonaTipo.getMaxReg();
+       
+            }
+    private void showRowData () {
+        txtIdTipo.setText        (dtoPersonaTipo.getIdPersonaTipo().toString());
+        txtTipoPersona.setText   (dtoPersonaTipo.getTipo());
+        lblTotalReg.setText      ((regAct.toString())+"de"+regMax);
+         }
+            @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==btnRowIni)
+            regAct=1;
+        if(e.getSource()==btnRowAnt && (regAct > 1))
+            regAct--;
+        if(e.getSource()==btnRowSig && (regAct < regMax))
+            regAct++;
+        if (e.getSource() ==btnRowFin)
+        regAct = regMax;
+        try {
+            dtoPersonaTipo =blfPersonaTipo.getById(regAct);
+            showRowData();
+        } catch (Exception ex) { }
+
+        }
     private void initcomponent() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-            txtIdSexo.setEnabled(false);
-            txtIdSexo.setBorderLine();
-            txtNombre.setBorderLine();
+            txtIdTipo.setEnabled(false);
+            txtIdTipo.setBorderLine();
+            txtTipoPersona.setBorderLine();
 
             pnlBtnPage.add(btnPageIni);
             pnlBtnPage.add(btnPageAnt);
@@ -99,7 +155,7 @@ public class PanelPersonaTipo extends JPanel {
             gbc.gridy = 5;
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.gridwidth = GridBagConstraints.REMAINDER;
-            add(txtIdSexo, gbc);
+            add(txtIdTipo, gbc);
 
 
             gbc.gridy = 6;
@@ -109,7 +165,7 @@ public class PanelPersonaTipo extends JPanel {
             gbc.gridx = 1;
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.gridwidth = GridBagConstraints.REMAINDER;
-            add(txtNombre, gbc);
+            add(txtTipoPersona, gbc);
 
             gbc.gridy = 7;
             gbc.gridx = 0;
@@ -133,8 +189,8 @@ public class PanelPersonaTipo extends JPanel {
         
         // Cajas de texto personalizadas (PatTextBox)
         private PatTextBox
-            txtIdSexo   = new PatTextBox(),
-            txtNombre   = new PatTextBox();
+            txtIdTipo   = new PatTextBox(),
+            txtTipoPersona   = new PatTextBox();
         
         // Botones personalizados (PatButton)
         private PatButton
@@ -159,5 +215,9 @@ public class PanelPersonaTipo extends JPanel {
             pnlBtnRow   = new JPanel(new FlowLayout()),
             pnlBtnPage  = new JPanel(new FlowLayout()),
             pnlBtnCRUD  = new JPanel(new FlowLayout());
+
+
+
         
-}
+
+            }
