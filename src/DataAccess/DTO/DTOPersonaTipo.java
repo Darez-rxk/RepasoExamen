@@ -2,14 +2,25 @@ package DataAccess.DTO;
 
 public class DTOPersonaTipo {
     private Integer IdPersonaTipo;
-    private String tipo;
+    private String Tipo;
     private String Estado;
     private String FechaCreacion;
     private String FechaModificacion;
-    public DTOPersonaTipo(Integer idPersonaTipo, String tipo, String estado, String fechaCreacion,
-            String fechaModificacion) {
+    public DTOPersonaTipo(String tipo){
+        IdPersonaTipo = 0;
+        Tipo = tipo;
+        Estado = "A";
+        FechaCreacion = "";
+        FechaModificacion = "";
+    }
+    public DTOPersonaTipo(Integer idPersonaTipo,
+                           String tipo,
+                           String estado, 
+                           String fechaCreacion,
+                           String fechaModificacion) 
+    {
         IdPersonaTipo = idPersonaTipo;
-        this.tipo = tipo;
+        Tipo = tipo;
         Estado = estado;
         FechaCreacion = fechaCreacion;
         FechaModificacion = fechaModificacion;
@@ -24,10 +35,10 @@ public class DTOPersonaTipo {
         IdPersonaTipo = idPersonaTipo;
     }
     public String getTipo() {
-        return tipo;
+        return Tipo;
     }
     public void setTipo(String tipo) {
-        this.tipo = tipo;
+        Tipo = tipo;
     }
     public String getEstado() {
         return Estado;

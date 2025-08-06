@@ -14,10 +14,10 @@ public class FormMain extends JFrame {
     public FormMain(String titleapp) {
         initComponents(titleapp);
 
-        pnlMenu.btnHome.addActionListener((e) -> setPanel(new PanelMain()));
-        pnlMenu.btnLocalidad.addActionListener((e) -> setPanel(new PanelMain()));
-        pnlMenu.btnTest.addActionListener(e -> IAStyle.showMsgError("Mensaje de error"));
-        pnlMenu.btnTipoPersona.addActionListener((e) -> setPanel(new PanelPersonaTipo()));
+        pnlMenu.btnHome.addActionListener          ((e) -> setPanel(new PanelMain()));
+        pnlMenu.btnParlanteEsp.addActionListener   ((e) -> setPanel(new PParlanteEspanol()));
+        pnlMenu.btnTest.addActionListener          (e -> IAStyle.showMsgError("Mensaje de error"));
+        pnlMenu.btnTipoPersona.addActionListener   ((e) -> setPanel(new PanelPersonaTipo()));
     }
     public void setPanel(JPanel formularioPanel) {
         Container container = getContentPane();

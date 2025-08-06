@@ -1,4 +1,4 @@
-package BusinessLogic.Exo;
+package BusinessLogic.Entities.Exo;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license

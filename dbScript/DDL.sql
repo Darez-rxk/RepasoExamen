@@ -1,11 +1,11 @@
 -- database: ../db/EXOBOT.sqlite
 /*
  * DDL: Lenguaje de Definición de Datos
- * CopyRightgit
- * autor: pat_mlc
+ * CopyRight  : 2k25 epn-fis examen de programacion II segundo bim 
+ * autor: darez-rxk and pat_mic
  * fecha: 2k25
  */
-
+------------------------------------
 DROP TABLE IF EXISTS ExaBot;
 DROP TABLE IF EXISTS IABOT;
  DROP TABLE IF EXISTS Persona;
@@ -44,6 +44,7 @@ CREATE TABLE Persona (
     IdPersonaTipo   INTEGER NOT NULL,
     Cedula          TEXT NOT NULL UNIQUE,
     Nombre          TEXT NOT NULL,
+    Idioma          TEXT NOT NULL,
     FechaCreacion   DATETIME DEFAULT (datetime('now', 'localtime')),
     FechaModifica   DATETIME NOT NULL DEFAULT (datetime('now', 'localtime')),
     FOREIGN KEY (IdPersonaTipo) REFERENCES PersonaTipo(IdPersonaTipo)

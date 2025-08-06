@@ -1,4 +1,9 @@
-
+/*  -------------------------------------------------
+ |  Copyright (c) 2k25 EPN-FIS. All Rights Reserved  |
+ |  andresgalarraga7@outlook.es    Darez-rxk         |   
+ |  pat_mic@hotmail.com            pat_mic           |       
+ |  -------------------------------------------------|
+ */
 package DataAccess.DTO;
 
 public class DTOPersona {
@@ -6,21 +11,34 @@ public class DTOPersona {
     private Integer IdPersonaTipo;
     private String Cedula;
     private String Nombre;
+    private String Idioma;
     private String Estado;
     private String FechaCreacion;
     private String FechaModifica;
-
+//Constuctor por defecto
     public DTOPersona() {}
-
+//Constructor para crear el objeto con los atributos necesarios 
+public DTOPersona(int idPersona, int idPersonaTipo, String cedula, String nombre, String idioma, String string3, String string4){
+        IdPersona     = idPersona;
+        IdPersonaTipo = idPersonaTipo;
+        Cedula        = cedula;
+        Nombre        = nombre;
+        Idioma        = idioma;
+        Estado        = "A";
+        FechaCreacion = " ";
+        FechaModifica = " ";
+}
+//Constructor para conectar con la base de datos, para hacer el CRUD
     public DTOPersona(Integer idPersona, Integer idPersonaTipo, String cedula, String nombre,
-                      String estado, String fechaCreacion, String fechaModifica) {
-        this.IdPersona = idPersona;
-        this.IdPersonaTipo = idPersonaTipo;
-        this.Cedula = cedula;
-        this.Nombre = nombre;
-        this.Estado = estado;
-        this.FechaCreacion = fechaCreacion;
-        this.FechaModifica = fechaModifica;
+                      String idioma, String fechaCreacion, String fechaModifica) {
+        IdPersona     = idPersona;
+        IdPersonaTipo = idPersonaTipo;
+        Cedula        = cedula;
+        Nombre        = nombre;
+        
+        Idioma        = idioma;
+        FechaCreacion = fechaCreacion;
+        FechaModifica = fechaModifica;
     }
 
     public Integer getIdPersona() {
@@ -86,8 +104,17 @@ public class DTOPersona {
              + " - IdPersonaTipo: " + IdPersonaTipo + "\n"
              + " - Cedula: " + Cedula + "\n"
              + " - Nombre: " + Nombre + "\n"
+             + " - Idioma: " + Idioma + "\n"
              + " - Estado: " + Estado + "\n"
              + " - FechaCreacion: " + FechaCreacion + "\n"
              + " - FechaModifica: " + FechaModifica;
+    }
+
+    public String getIdioma() {
+        return Idioma;
+    }
+
+    public void setIdioma(String idioma) {
+        Idioma = idioma;
     }
 }

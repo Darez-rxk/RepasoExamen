@@ -7,6 +7,7 @@ import App.Utils.IAStyle;
 import BusinessLogic.BLFactory;
 import DataAccess.DAO.DAOPersonaTipo;
 import DataAccess.DTO.DTOPersonaTipo;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -15,9 +16,13 @@ import java.awt.Insets;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class PanelPersonaTipo extends JPanel implements ActionListener{
     private BLFactory<DTOPersonaTipo> blfPersonaTipo = new BLFactory<>(DAOPersonaTipo::new);
@@ -27,16 +32,24 @@ public class PanelPersonaTipo extends JPanel implements ActionListener{
                   ,regMax=0;
 
 
-    public PanelPersonaTipo() {
+        public PanelPersonaTipo() {
         
         try {
             initcomponent();
             loadRowData();
             showRowData();
+            showDataTable();
             btnRowIni.addActionListener(this);
             btnRowAnt.addActionListener(this);
             btnRowSig.addActionListener(this);
             btnRowFin.addActionListener(this);
+
+            btnNuevo.addActionListener(e ->btnNuevoClick() );
+            btnGuardar.addActionListener(e ->btnGuardarClick() );
+            btnEliminar.addActionListener(e ->btnEliminarClick() );
+            btnCancelar.addActionListener(e ->btnCancelarClick() );
+
+
 
             // btnPageIni.addActionListener(e -> {
             //     regAct=1;
@@ -49,34 +62,141 @@ public class PanelPersonaTipo extends JPanel implements ActionListener{
         }
         showRowData();
     }
-    private void loadRowData() throws Exception{
+        void showDataTable() {
+            String[] header = { "IDPT", "Tipo", "Estado" };
+            Object[][] data = new Object[regMax][3];
+            int index = 0;
+        
+            try {
+                for (DTOPersonaTipo o : blfPersonaTipo.getAll()) {
+                    data[index][0] = o.getIdPersonaTipo();
+                    data[index][1] = o.getTipo();
+                    data[index][2] = o.getEstado();
+                    index++;
+                }
+            } catch (Exception e) {
+                IAStyle.showMsgError("Error al cargar la tabla: " + e.getMessage());
+            }
+        
+            JTable table = new JTable(data, header);
+            table.setShowHorizontalLines(true);
+            table.setGridColor(Color.lightGray);
+            table.setRowSelectionAllowed(true);
+            table.setColumnSelectionAllowed(false);
+            table.setPreferredScrollableViewportSize(new Dimension(450, 150));
+            table.setFillsViewportHeight(true);
+        
+            pnlTabla.removeAll();
+            pnlTabla.add(new JScrollPane(table));
+        
+            table.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int row = table.rowAtPoint(e.getPoint());
+                    int col = table.columnAtPoint(e.getPoint());
+                    
+                    if (row >= 0 && col >= 0) {
+                        
+                            String strId = table.getModel().getValueAt(row, 0).toString();
+                            regAct = Integer.parseInt(strId);
+                        try {  
+                            dtoPersonaTipo  = blfPersonaTipo.getById(regAct);
+                            showRowData( ); // Asegúrate de que este método exista en la clase exterior
+                        
+                            System.out.println("Tabla.Selected: " + strId);
+                        } catch (Exception ex) {
+                            IAStyle.showMsgError("Error al seleccionar fila: " + ex.getMessage());
+                        }
+                    }
+                }
+            });
+        }
+
+        private void  btnNuevoClick() {
+            dtoPersonaTipo = null;
+            showRowData();
+        }
+        private void btnGuardarClick() {
+                boolean isDTOnuLL = (dtoPersonaTipo == null);
+                try {
+                    if (IAStyle.showConfirmYesNo("¿Seguro que desea " + ((isDTOnuLL) ? "AGREGAR ?" : "ACTUALIZAR ?"))) {
+                        if (isDTOnuLL)
+                            dtoPersonaTipo = new DTOPersonaTipo(txtTipoPersona.getText().trim());
+                        else
+                            dtoPersonaTipo.setTipo(txtTipoPersona.getText());
+                    
+                        if ((isDTOnuLL) ? blfPersonaTipo.add(dtoPersonaTipo)
+                                        : blfPersonaTipo.upd(dtoPersonaTipo)) {
+                            IAStyle.showMsg("Registro guardado correctamente.");
+                        } else {
+                            IAStyle.showMsgError("Registro fallido");
+                        }
+                    
+                        loadRowData();
+                        showRowData();
+                        showDataTable();
+                    }
+                } catch (Exception e) {
+                    IAStyle.showMsgError (e.getMessage());
+                }
+            }
+        
+        private void btnEliminarClick()  {
+            try {
+                if (IAStyle.showConfirmYesNo("¿Seguro que desea ELIMINAR ? ")) {
+                    if (!blfPersonaTipo.del(dtoPersonaTipo.getIdPersonaTipo())) {
+                        throw new Exception("Error al eliminar ....!");
+                    }
+                    loadRowData();
+                    showRowData();
+                    showDataTable();
+                }
+            } catch (Exception e) {
+                IAStyle.showMsgError(e.getMessage());
+            }
+        }
+        private void  btnCancelarClick() {
+            try {
+                if (dtoPersonaTipo ==null)
+                loadRowData();
+                showRowData();
+
+            } catch (Exception e) {
+            }
+        }
+
+        private void loadRowData() throws Exception{
        regAct           = 1;
        dtoPersonaTipo   =blfPersonaTipo.getById(regAct);
        regMax           = blfPersonaTipo.getMaxReg();
        
             }
-    private void showRowData () {
-        txtIdTipo.setText        (dtoPersonaTipo.getIdPersonaTipo().toString());
-        txtTipoPersona.setText   (dtoPersonaTipo.getTipo());
-        lblTotalReg.setText      ((regAct.toString())+"de"+regMax);
+    
+        private void showRowData () {
+        boolean isDTOnull = (dtoPersonaTipo== null|| dtoPersonaTipo.getIdPersonaTipo() ==null);
+        txtIdTipo.setText        ((isDTOnull)? " ":dtoPersonaTipo.getIdPersonaTipo().toString());
+        txtTipoPersona.setText   ((isDTOnull)? " ":dtoPersonaTipo.getTipo().toString());
+        lblTotalReg.setText      ((regAct.toString())+" de "+regMax);
          }
             @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==btnRowIni)
-            regAct=1;
-        if(e.getSource()==btnRowAnt && (regAct > 1))
-            regAct--;
-        if(e.getSource()==btnRowSig && (regAct < regMax))
-            regAct++;
-        if (e.getSource() ==btnRowFin)
-        regAct = regMax;
+        public void actionPerformed(ActionEvent e) {
+        Object src = e.getSource();
+        if (src == btnRowIni) {
+            regAct = 1;
+        } else if (src == btnRowAnt) {
+            regAct = Math.max(1, regAct - 1);
+        } else if (src == btnRowSig) {
+            regAct = Math.min(regMax, regAct + 1);
+        } else if (src == btnRowFin) {
+            regAct = regMax;
+        }
         try {
             dtoPersonaTipo =blfPersonaTipo.getById(regAct);
             showRowData();
         } catch (Exception ex) { }
 
         }
-    private void initcomponent() {
+        private void initcomponent() {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -179,7 +299,7 @@ public class PanelPersonaTipo extends JPanel implements ActionListener{
         
        
             }
-
+            //#region
             // Etiquetas personalizadas (PatLabel)
         private PatLabel
             lblTitulo   = new PatLabel("Personas Tipo"),
@@ -215,9 +335,5 @@ public class PanelPersonaTipo extends JPanel implements ActionListener{
             pnlBtnRow   = new JPanel(new FlowLayout()),
             pnlBtnPage  = new JPanel(new FlowLayout()),
             pnlBtnCRUD  = new JPanel(new FlowLayout());
-
-
-
-        
-
+            //#endregion
             }

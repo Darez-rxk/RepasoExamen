@@ -18,7 +18,7 @@ public class PanelMenu extends JPanel {
             btnHome = new PatButton("Home"),
             btnLogin = new PatButton("Login"),
             btnTipoPersona = new PatButton("TipoPersona"),
-            btnLocalidad = new PatButton("Localidad"),
+            btnParlanteEsp = new PatButton("ParlanteEsp"),
             btnTest = new PatButton("Test");
 
 
@@ -40,7 +40,7 @@ public class PanelMenu extends JPanel {
         add(btnHome);
         add(btnLogin);
         add(btnTipoPersona);
-        add(btnLocalidad);
+        add(btnParlanteEsp);
         add(btnTest);
         add(new JLabel("\u22A0 2025 Darez-Rxk")); // Espacio vacío para separación
 

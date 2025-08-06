@@ -1,8 +1,15 @@
+/*  -------------------------------------------------
+ |  Copyright (c) 2k25 EPN-FIS. All Rights Reserved  |
+ |  andresgalarraga7@outlook.es    Darez-rxk         |   
+ |  pat_mic@hotmail.com            pat_mic           |       
+ |  -------------------------------------------------|
+ */
+
 package BusinessLogic.Entities;
 
 
 import BusinessLogic.BLFactory;
-import BusinessLogic.Exo.Exobot;
+import BusinessLogic.Entities.Exo.Exobot;
 import DataAccess.DAO.DAOIABot;
 import DataAccess.DTO.DTOIABot;
 import java.util.List;

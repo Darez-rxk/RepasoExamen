@@ -1,4 +1,4 @@
-package BusinessLogic.Exo;
+package BusinessLogic.Entities.Exo;
 
 import BusinessLogic.Entities.IABot;
 

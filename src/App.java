@@ -1,12 +1,29 @@
+/*  -------------------------------------------------
+ |  Copyright (c) 2k25 EPN-FIS. All Rights Reserved  |
+ |  andresgalarraga7@outlook.es    Darez-rxk         |   
+ |  pat_mic@hotmail.com            pat_mic           |       
+ |  -------------------------------------------------|
+ */
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.intellijthemes.FlatCarbonIJTheme;
 
 import App.Forms.FormMain;
 import BusinessLogic.Entities.Whiterun;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class App {
-    public static void main(String[] args) throws Exception {
-        Whiterun whiterun = new Whiterun();
-        whiterun.crearExobot();
+    public static void main(String[] args) {
+        // Whiterun whiterun = new Whiterun();
+        // whiterun.crearExobot();
         //new SplashScreenFor m();
+        FlatLightLaf.setup();
+        FlatLightLaf.supportsNativeWindowDecorations();
+        try {
+            UIManager.setLookAndFeel(new FlatCarbonIJTheme());
+            }catch (UnsupportedLookAndFeelException e){
+                e.printStackTrace();
+            }
         FormMain mainForm = new FormMain("Exobot - IABot");
         mainForm.setVisible(true);
 

@@ -1,4 +1,9 @@
-
+/*  -------------------------------------------------
+ |  Copyright (c) 2k25 EPN-FIS. All Rights Reserved  |
+ |  andresgalarraga7@outlook.es    Darez-rxk         |   
+ |  pat_mic@hotmail.com            pat_mic           |       
+ |  -------------------------------------------------|
+ */
 package DataAccess.DAO;
 
 import DataAccess.DTO.DTOPersona;
@@ -14,70 +19,85 @@ import java.util.List;
 
 public class DAOPersona extends DataHelperSQLite implements IDAO<DTOPersona> {
 
-    @Override
-    public DTOPersona readBy(Integer id) throws Exception {
-        DTOPersona dto = new DTOPersona();
-        String query = "SELECT IdPersona, IdPersonaTipo, Cedula, Nombre, Estado, FechaCreacion, FechaModifica "
-                     + "FROM Persona "
-                     + "WHERE Estado = 'A' AND IdPersona = " + id.toString();
-        try {
-            Connection conn = openConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                dto = new DTOPersona(
-                    rs.getInt(1),
-                    rs.getInt(2),
-                    rs.getString(3),
-                    rs.getString(4),
-                    rs.getString(5),
-                    rs.getString(6),
-                    rs.getString(7)
-                );
-            }
-        } catch (SQLException e) {
-            throw e;
-        }
-        return dto;
-    }
+ @Override
+public DTOPersona readBy(Integer id) throws Exception {
+    DTOPersona dto = new DTOPersona();
+    String query = "SELECT IdPersona   " 
+                 + ", IdPersonaTipo " 
+                 + ", Cedula " 
+                 + ", Nombre "
+                 + ", Idioma "  
+                 + ", FechaCreacion " 
+                 + ", FechaModifica " 
+                 + "FROM Persona "
+                 + "WHERE IdPersona = " + id.toString();  // ✅ Sin Estado
 
-    @Override
-    public List<DTOPersona> readAll() throws Exception {
-        List<DTOPersona> list = new ArrayList<>();
-        String query = "SELECT IdPersona, IdPersonaTipo, Cedula, Nombre, Estado, FechaCreacion, FechaModifica "
-                     + "FROM Persona "
-                     + "WHERE Estado = 'A'";
-        try {
-            Connection conn = openConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-            while (rs.next()) {
-                DTOPersona dto = new DTOPersona(
-                    rs.getInt(1),
-                    rs.getInt(2),
-                    rs.getString(3),
-                    rs.getString(4),
-                    rs.getString(5),
-                    rs.getString(6),
-                    rs.getString(7)
-                );
-                list.add(dto);
-            }
-        } catch (SQLException e) {
-            throw e;
+    try {
+        Connection conn = openConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            dto = new DTOPersona(
+                rs.getInt(1),    // IdPersona
+                rs.getInt(2),    // IdPersonaTipo
+                rs.getString(3), // Cedula
+                rs.getString(4), // Nombre
+                rs.getString(5), // Idioma
+                rs.getString(6), // FechaCreacion
+                rs.getString(7)  // FechaModifica
+            );
         }
-        return list;
+    } catch (SQLException e) {
+        throw e;
     }
+    return dto;
+}
+
+
+ @Override
+public List<DTOPersona> readAll() throws Exception {
+    List<DTOPersona> list = new ArrayList<>();
+    String query = "SELECT IdPersona "
+                 + ", IdPersonaTipo "
+                 + ", Cedula "
+                 + ", Nombre "
+                 + ", Idioma " 
+                 + ", FechaCreacion " 
+                 + ", FechaModifica "
+                 + "FROM Persona"; // ✅ Sin WHERE Estado
+
+    try {
+        Connection conn = openConnection();
+        Statement stmt = conn.createStatement();
+        ResultSet rs = stmt.executeQuery(query);
+        while (rs.next()) {
+            DTOPersona dto = new DTOPersona(
+                rs.getInt(1),     // IdPersona
+                rs.getInt(2),     // IdPersonaTipo
+                rs.getString(3),  // Cedula
+                rs.getString(4),  // Nombre
+                rs.getString(5),  // Idioma
+                rs.getString(6),  // FechaCreacion
+                rs.getString(7)   // FechaModifica
+            );
+            list.add(dto);
+        }
+    } catch (SQLException e) {
+        throw e;
+    }
+    return list;
+}
 
     @Override
     public boolean create(DTOPersona entity) throws Exception {
-        String query = "INSERT INTO Persona (IdPersonaTipo, Cedula, Nombre) VALUES (?, ?, ?)";
-        try {
+String query = "INSERT INTO Persona (IdPersonaTipo, Cedula, Nombre, Idioma) VALUES (?, ?, ?, ?)";        
+try {
             Connection conn = openConnection();
             PreparedStatement pstmt = conn.prepareStatement(query);
             pstmt.setInt(1, entity.getIdPersonaTipo());
             pstmt.setString(2, entity.getCedula());
             pstmt.setString(3, entity.getNombre());
+            pstmt.setString(4,entity.getIdioma());
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -99,8 +119,9 @@ public class DAOPersona extends DataHelperSQLite implements IDAO<DTOPersona> {
             pstmt.setInt(1, entity.getIdPersonaTipo());
             pstmt.setString(2, entity.getCedula());
             pstmt.setString(3, entity.getNombre());
-            pstmt.setString(4, getDataTimeNow());
-            pstmt.setInt(5, entity.getIdPersona());
+            pstmt.setString(4, entity.getIdioma());
+            pstmt.setString(5, getDataTimeNow());
+            pstmt.setInt(6, entity.getIdPersona());
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -126,7 +147,7 @@ public class DAOPersona extends DataHelperSQLite implements IDAO<DTOPersona> {
 
     @Override
     public Integer getMaxReg() throws Exception {
-        String query = "SELECT COUNT(*) FROM Persona WHERE Estado='A'";
+        String query = "SELECT COUNT(*) FROM Persona WHERE Idioma='Español'";
         try {
             Connection conn = openConnection();
             Statement stmt = conn.createStatement();
